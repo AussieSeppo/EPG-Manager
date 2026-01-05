@@ -14,7 +14,7 @@ RUN if [ -f package-lock.json ]; then npm ci --ignore-scripts; else npm install 
 
 # Rebuild the source code only when needed
 FROM base AS builder
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 RUN mkdir -p /app/db
 COPY --from=deps /app/node_modules ./node_modules
