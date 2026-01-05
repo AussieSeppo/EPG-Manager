@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -6,6 +7,7 @@ import {
   getTemplateById,
   createScheduleFromTemplate,
 } from '@/lib/schedule-templates';
+
 
 export async function POST(request: NextRequest) {
   try {
@@ -97,6 +99,13 @@ export async function POST(request: NextRequest) {
     const createdSchedules = [];
     let successCount = 0;
     let errorCount = 0;
+## ChatGPT proposed fix for compile errors. #
+    type CreatedSchedule = Prisma.ScheduleGetPayload<{
+  include: { channel: true; program: true };
+}>;
+
+const createdSchedules: CreatedSchedule[] = [];
+
 
     for (const scheduleData of schedules) {
       try {
