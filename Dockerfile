@@ -15,21 +15,17 @@ RUN if [ -f package-lock.json ]; then npm ci --ignore-scripts; else npm install 
 # Rebuild the source code only when needed
 FROM base AS builder
 RUN apk add --no-cache libc6-compat openssl
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 WORKDIR /app
 RUN mkdir -p /app/db
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# ChatGPT proposed resolution.
-FROM base AS builder
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
-
 RUN ls -la prisma || true
-RUN node -e "console.log('DATABASE_URL=', process.env.DATABASE_URL)"
+# Optional debug (remove later)
+RUN node -e "console.log('DATABASE_URL present:', !!process.env.DATABASE_URL)"
 # Generate Prisma client
 RUN npx prisma generate
-
 # Build the application
 RUN npm run build
 
