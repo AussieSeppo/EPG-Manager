@@ -46,6 +46,9 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
+COPY --from=builder /app/src ./src
+
 
 # Copy Prisma files
 COPY --from=builder /app/prisma ./prisma
@@ -74,4 +77,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:${PORT:-3000}/api/health || exit 1
 
 # Use tsx to run the TypeScript server file
-CMD ["npx", "tsx", "server.ts"]
+CMD ["npx", "tsx", "--tsconfig", "tsconfig.json", "server.ts"]
