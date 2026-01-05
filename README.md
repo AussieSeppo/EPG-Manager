@@ -46,6 +46,8 @@ EPG Manager is a comprehensive Electronic Program Guide (EPG) management system 
 
 ## Installation
 
+Updated 05-Jan-25:  Dockerfile and route.ts updated for Northflank container installation.
+
 ### Prerequisites
 
 - Node.js 18+
