@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
     );
 
     // Create schedules in database
-    const createdSchedules = [];
+    const createdSchedules: CreatedSchedule[] = [];
     let successCount = 0;
     let errorCount = 0;
     // ChatGPT proposed fix for compile errors. 
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       include: { channel: true; program: true };
     }>;
     
-    const createdSchedules: CreatedSchedule[] = [];
+
 
 
     for (const scheduleData of schedules) {
