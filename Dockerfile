@@ -25,7 +25,8 @@ FROM base AS builder
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
 
-
+RUN ls -la prisma || true
+RUN node -e "console.log('DATABASE_URL=', process.env.DATABASE_URL)"
 # Generate Prisma client
 RUN npx prisma generate
 
